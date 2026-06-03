@@ -5,5 +5,5 @@ function login(event) {
 
     localStorage.setItem("username", username);
 
-    window.location.href = "calendar.html";
+    window.location.href = "index.html";
 }
