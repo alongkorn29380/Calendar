@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <!------------ TAB BAR LEFT ------------>
+    <div class="glass-container">
+        <div class="sidebar">
+            <div class="container">
+                <h2>ยินดีต้อนรับ <span id="username"></span></h2>
+                <button type="button" class="logout-btn" onclick="logout()">Logout</button>
+
+                <div class="theme-row">
+                    <span class="theme-label">สลับธีม</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!------------ mini calendar ------------>
+            <div class="mini-calendar-container">
+                <h3><i class="fas fa-calendar-week"></i>Calendar</h3>
+                <div class="mini-calendar-header">
+                    <div id="month-year-mini" class="mini-month-title">ม.ค. 2025</div>
+                    <button id="prev-month-mini" class="mini-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button id="next-month-mini" class="mini-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="mini-weekdays">
+                    <div>อา</div>
+                    <div>จ</div>
+                    <div>อ</div>
+                    <div>พ</div>
+                    <div>พฤ</div>
+                    <div>ศ</div>
+                    <div>ส</div>
+                </div>
+                <div id="mini-calendar" class="calendar mini-view"></div>
+            </div>
+
+            <!------------ Type ------------>
+            <div class="category-filter">
+                <div class="filter-header" id="filter-toggle">
+                    <h3>
+                        <i class="fas fa-filter"></i>
+                        <span>Category filter</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                </div>
+                <div class="filter-content" id="filter-content">
+                    <div class="filter-checkboxes">
+                        <label class="filter-checkbox"> <!-- Checkbox for each type of event -->
+                        <input type="checkbox" data-type="education" checked>
+                        <span class="color-indicator education"></span>
+                        <span>Education</span> <!-- การศึกษา -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                        <input type="checkbox" data-type="work" checked>
+                        <span class="color-indicator work"></span>
+                        <span>Work</span> <!-- งาน -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="finance" checked>
+                            <span class="color-indicator finance"></span>
+                            <span>Finance</span> <!-- การเงิน -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="health" checked>
+                            <span class="color-indicator health"></span>
+                            <span>Health</span> <!-- สุขภาพ -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="travel" checked>
+                            <span class="color-indicator travel"></span>
+                            <span>Travel</span> <!-- การเดินทาง -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="reminder" checked>
+                            <span class="color-indicator reminder"></span>
+                            <span>Reminder</span> <!-- การเตือนความจำ -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="family" checked>
+                            <span class="color-indicator family"></span>
+                            <span>Family</span> <!-- ครอบครัว -->
+                        </label>
+
+                        <label class="filter-checkbox">
+                            <input type="checkbox" data-type="personal" checked>
+                            <span class="color-indicator personal"></span>
+                            <span>Personal</span> <!-- ส่วนตัว -->
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------ main calendar ------------>
+        <div class="main-content">
+            <div class="calendar-header">
+                <button id="prev-month" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                <h2 id="month-year" class="month-title">มกราคม 2025</h2>
+                <button id="next-month" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="weekdays">
+                <div>อาทิตย์</div>
+                <div>จันทร์</div>
+                <div>อังคาร</div>
+                <div>พุธ</div>
+                <div>พฤหัสบดี</div>
+                <div>ศุกร์</div>
+                <div>เสาร์</div>
+            </div>
+            <div id="full-calendar" class="calendar main-view"></div>
+        </div>
+
+        <!------------ note ------------>
+        <div class="note-details">
+            <div class="details-header">
+                <h3><i class="fas fa-sticky-note"></i> รายละเอียดโน๊ต</h3>
+            </div>
+            <button id="open-note-modal" class="add-note-btn">
+                <i class="fas fa-plus"></i> เพิ่มโน๊ตใหม่
+            </button>
+            <div class="details-content">
+                <p class="no-notes"><i class="far fa-smile"></i> เลือกวันที่เพื่อดูโน๊ต</p>
+            </div>
+        </div>
+    </div>
+
+    <!------------ modal for adding notes (TAB BAR RIGHT) ------------>
+    <div id="note-modal" class="modal">
+        <div class="modal-glass">
+            <div class="modal-header">
+                <h3 id="modal-title"><i class="fas fa-edit"></i> Add a new note</h3>
+            </div>
+            <div class="model-body">
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Text note</label>
+                    <textarea class="text-note" id="note-text" placeholder="Write your notes here..."></textarea>
+                </div>
+                <div class="from-group">
+                    <label><i class="fas fa-tags"></i> Type</label>
+                    <div class="tag-selector">
+                        <button class="tag-btn education" data-value="education">
+                            <i class="fas fa-graduation-cap"></i> Education
+                        </button>
+
+                        <button class="tag-btn work" data-value="work">
+                            <i class="fas fa-briefcase"></i> Work
+                        </button>
+
+                        <button class="tag-btn finance" data-value="finance">
+                            <i class="fas fa-money-bill-wave"></i> Finance
+                        </button>
+
+                        <button class="tag-btn health" data-value="health">
+                            <i class="fas fa-heartbeat"></i> Health
+                        </button>
+
+                        <button class="tag-btn travel" data-value="travel">
+                            <i class="fas fa-plane"></i> Travel
+                        </button>
+
+                        <button class="tag-btn reminder" data-value="reminder">
+                            <i class="fas fa-bell"></i> Reminder
+                        </button>
+
+                        <button class="tag-btn family" data-value="family">
+                            <i class="fas fa-home"></i> Family
+                        </button>
+
+                        <button class="tag-btn personal" data-value="personal">
+                            <i class="fas fa-user"></i> Personal
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-note" class="cancel-btn">ยกเลิก</button>
+                <button id="save-note" class="save-btn">
+                    <i class="fas fa-save"></i> บันทึกโน๊ต
+                </button>
+            </div>
+        </div>
+    </div>
+    
+  <script src="calendar.js"></script>
+</body>
+</html>

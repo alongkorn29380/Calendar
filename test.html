@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    /* สไตล์สำหรับฟอร์มล็อกอิน */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f0f0f0;
+    }
+    
+    .input-group {
+      margin: 20px 0;
+      position: relative;
+    }
+    
+    .input-group .input {
+      width: 300px;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .input-group.focus .input {
+      border-color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <form onsubmit="login(event)">
+    <div class="input-group">
+      <input 
+        type="text" 
+        id="usernameInput" 
+        class="input" 
+        placeholder="Username"
+        required
+      >
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+      const username = document.getElementById("usernameInput").value.trim();
+      localStorage.setItem("username", username);
+      window.location.href = "calendar.html";
+    }
+
+    // ระบบจัดการ focus input
+    const inputs = document.querySelectorAll(".input");
+    
+    function focusInput() {
+      let parent = this.parentNode;
+      parent.classList.add("focus");
+    }
+    
+    function removeFocus() {
+      let parent = this.parentNode;
+      if (this.value == "") {
+        parent.classList.remove("focus");
+      }
+    }
+    
+    inputs.forEach(input => {
+      input.addEventListener("focus", focusInput);
+      input.addEventListener("blur", removeFocus);
+    });
+  </script>
+</body>
+</html>
